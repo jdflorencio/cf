@@ -1,0 +1,70 @@
+###
+# slim API Docker-compose file.
+###
+
+# v2 syntax
+version: '2'
+
+# Named volumes
+volumes:
+  # MySQL Data
+  slim-mysql-data:
+    driver: local
+
+  # Redis Data
+  slim-redis-data:
+    driver: local
+
+services:
+
+  # Redis
+  cache:
+    image: ambientum/redis:3.2
+    container_name: estudos-redis
+    command: --appendonly yes
+    volumes:
+      - slim-redis-data:/data
+    ports:
+      - "6379:6379"
+    network_mode: slim
+
+  # slim API (with Nginx)
+  api:
+    image: ambientum/php:7.1-nginx
+    container_name: estudos-api
+    volumes:
+      - .:/var/www/app
+      - ./storage/framework/psysh:/home/ambientum/.config/psysh
+    ports:
+      - "8181:8080"
+    network_mode: slim
+
+  # Laravel Queues
+  queue:
+    image: ambientum/php:7.1
+    container_name: estudos-queue
+    command: php artisan queue:listen
+    volumes:
+      - .:/var/www/app
+      - ./storage/framework/psysh:/home/ambientum/.config/psysh
+    network_mode: estudos
+  # PhpMyadmin
+  # pma:
+  #  image: phpmyadmin/phpmyadmin
+  #  container_name: estudosyAdmin
+  #  environment:
+  #   PMA_ARBITRARY: 1
+  #   PMA_HOST: mysql5.7
+  #   PMA_USER: root
+  #   PMA_PASSWORD: 123
+  #   PHP_UPLOAD_MAX_FILESIZE: 1G
+  #   PHP_MAX_INPUT_VARS: 1G
+  #  restart: always
+  #  ports:
+  #  - "3002:80"
+  #  volumes:
+  #  - ./src/sessions:/sessions
+
+networks:
+  slim:
+    external: true
