@@ -10,4 +10,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function exemple()
+    {
+        return ["msg" => "200 success!"];
+    }
 }
