@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Modules\DanfeExpo\Repositories;
 
 use Illuminate\Support\Facades\Storage;
 use NFePHP\DA\NFe\{Danfe, Danfce};  
 use NFePHP\DA\Legacy\FilesFolders;
-use App\Http\Interfaces\DanfeStorageInterface;
+// use App\Modules\DanfeExpo\Interfaces\DanfeStorageInterface;
 
-class DanfeStorageRepository implements DanfeStorageInterface
+class DanfeStorageRepository
 {   
     /**
      * Realizar o Upload do XML
@@ -16,7 +16,9 @@ class DanfeStorageRepository implements DanfeStorageInterface
      */
     public function xml(array $request) 
     {
-        $xmlSalvo = $request['file']->store('xmls');        
+        
+        $xmlSalvo = $request['file']->store('criado_pela_api');   
+        dd($xmlSalvo);     
         $docxml = Storage::get($xmlSalvo);
         $xml = $this->xml2array(simplexml_load_string($docxml), array());
 

@@ -174,8 +174,20 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
+        /*
+        *MODULOS ATIVOS
+        */
         App\Modules\ModuleExemple\Providers\EventServiceProvider::class,
         App\Modules\ModuleExemple\Providers\RouteServiceProvider::class,
+        App\Modules\DanfeExpo\Providers\RouteServiceProvider::class,
+        App\Modules\DanfeExpo\Providers\ModuleServiceProvider::class,
+        
+        
+        
+        /*
+        * Habilitando o DropBox client
+        */
         App\Providers\DropboxServiceProvider::class,
 
     ],

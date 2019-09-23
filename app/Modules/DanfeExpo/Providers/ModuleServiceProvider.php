@@ -4,7 +4,7 @@ namespace App\Modules\DanfeExpo\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
+        // dd($this->app);
+        $this->app->bind(
+            App\Modules\DanfeExpo\Interfaces\DanfeStorageInterface::class,
+            App\Modules\DanfeExpo\Repositories\DanfeStorageRepository::class
+
+        );
     }
 
     /**

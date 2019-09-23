@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Validators;
+namespace App\Modules\DanfeExpo\Validators;
 
-use App\Exceptions\InputValidationException;
+// use App\Exceptions\InputValidationException;
 use Validator;
 use Exception;
 
