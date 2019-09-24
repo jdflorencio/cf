@@ -16,27 +16,29 @@ class DanfeStorageRepository
      */
     public function xml(array $request) 
     {
-        
-        $xmlSalvo = $request['file']->store('criado_pela_api');   
-        dd($xmlSalvo);     
-        $docxml = Storage::get($xmlSalvo);
-        $xml = $this->xml2array(simplexml_load_string($docxml), array());
+        $xmlSalvo = $request['file']->store('api/xml');
+        $linkFileXML = Storage::url($xmlSalvo));
+
+        $readXML = Storage::get($xmlSalvo);
+        $xml = $this->xml2array(simplexml_load_string($readXML), array());
 
         if (array_key_exists("NFe", $xml)) {
-            $chave = substr($xml["NFe"][0]["infNFeSupl"][1]["qrCode"], 55, 44);
 
+            $chave = substr($xml["NFe"][0]["infNFeSupl"][1]["qrCode"], 55, 44);
              if ($xml["NFe"][0]["infNFe"][0]["ide"][0]["mod"] == 65) {
-                $danfe = $this->danfeNFce($docxml, $chave);
-                return $danfe;
+
+                $linkPDF = $this->danfeNFce($readXML, $chave);
              } else {
                 $this->danfeNfe();
              }
 
         } else {
+            dd('nota não autorizada!');
             $chave = substr($xml["infNFeSupl"][1]["qrCode"], 55, 44);
 
              if ($xml["infNFe"][0]["ide"][0]["mod"] == 65) {
-                $danfe = $this->danfeNFce($docxml, $chave);
+                $danfe = $this->danfeNFce($readXML, $chave);
+
                 return $danfe;
              } else {
                 $this->danfeNfe();
@@ -55,13 +57,9 @@ class DanfeStorageRepository
         $danfce = new Danfce($docxml, $pathLogo, 0);        
         $id = $danfce->monta();
         $pdf = $danfce->render();
-        // header('Content-Type: application/pdf');     
-        Storage::put("pdf/{$filename}.pdf", $pdf);       
-        $caminho = Storage::url('pdf/teste.pdf');
-        // dd(url()->current());
-        // header("Location:/{$caminho}", true);
-        // return storage_path("pdf/{$filename}.pdf");
-        return Storage::url("pdf/{$filename}.pdf");
+
+        Storage::put("api/pdf/{$filename}.pdf", $pdf);
+        return Storage::url("api/pdf/{$filename}.pdf");
     }
 
     public function danfeNfe() : void

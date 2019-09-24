@@ -16,5 +16,12 @@ class DanfeExpoController extends BaseController
         $validator->validate($file);
         $repository->xml($file);
     }
-}   
+
+    public function danfe(Request $request, $teste, $file)
+    {	
+    	dd($file);
+    	$dados = $request['file'];
+    	return ["msg" => $dados, "outher" => $file];
+    }
+}   	
 
