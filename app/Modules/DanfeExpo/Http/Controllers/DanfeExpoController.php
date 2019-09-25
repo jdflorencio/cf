@@ -8,6 +8,9 @@ use App\Modules\DanfeExpo\Interfaces\DanfeStorageInterface;
 use App\Modules\DanfeExpo\Repositories\DanfeStorageRepository;
 use App\Modules\DanfeExpo\Validators\XmlValidator;
 
+use Illuminate\Support\Facades\Storage;
+
+
 class DanfeExpoController extends BaseController
 {	
     public function uploadXml(Request $request, DanfeStorageRepository $repository, XmlValidator $validator)

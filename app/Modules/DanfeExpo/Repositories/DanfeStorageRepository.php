@@ -17,7 +17,7 @@ class DanfeStorageRepository
     public function xml(array $request) 
     {
         $xmlSalvo = $request['file']->store('api/xml');
-        $linkFileXML = Storage::url($xmlSalvo));
+        $linkFileXML = Storage::url($xmlSalvo);
 
         $readXML = Storage::get($xmlSalvo);
         $xml = $this->xml2array(simplexml_load_string($readXML), array());
@@ -53,13 +53,17 @@ class DanfeStorageRepository
      */
     private function danfeNFce(string $docxml, string $filename)
     {
-        $pathLogo =  __DIR__.'/images/logo.jpg';
+        // $pathLogo =  __DIR__.'/images/logo.jpg';        
+        $pathLogo = Storage::url('api/images/logo.jpg');
         $danfce = new Danfce($docxml, $pathLogo, 0);        
         $id = $danfce->monta();
         $pdf = $danfce->render();
 
-        Storage::put("api/pdf/{$filename}.pdf", $pdf);
-        return Storage::url("api/pdf/{$filename}.pdf");
+        $$pdfSaved = Storage::put("api/pdf/{$filename}.pdf", $pdf);
+
+        if ($pdfSaved) {
+            return Storage::url("api/pdf/{$filename}.pdf");
+        }
     }
 
     public function danfeNfe() : void
