@@ -3,4 +3,4 @@
 use Illuminate\Http\Request;
 
 
-Route::get('/danfe'	, 'DanfeExpoController@uploadXml');
+

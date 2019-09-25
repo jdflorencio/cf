@@ -26,5 +26,10 @@ class DanfeExpoController extends BaseController
     	$dados = $request['file'];
     	return ["msg" => $dados, "outher" => $file];
     }
+
+    public function index()
+    {
+        return view('welcome');
+    }
 }   	
 
